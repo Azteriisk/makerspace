@@ -52,8 +52,8 @@ export function ProductDialog({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         onSave({
+            ...formData as Product,
             id: product?.id || Math.random().toString(36).substr(2, 9),
-            ...formData as Product
         })
         onOpenChange(false)
     }
