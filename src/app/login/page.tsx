@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function LoginPage() {
     return (
-        <div className="flex items-center justify-center min-h-[calc(100vh-200px)] py-12">
-            <Tabs defaultValue="member" className="w-[400px]">
+        <div className="flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-12 sm:px-6">
+            <Tabs defaultValue="member" className="w-full max-w-md">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="member">Member Login</TabsTrigger>
                     <TabsTrigger value="register">Register</TabsTrigger>

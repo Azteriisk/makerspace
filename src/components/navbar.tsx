@@ -16,7 +16,7 @@ function CartTrigger() {
     const count = items.reduce((acc, item) => acc + item.quantity, 0)
 
     return (
-        <Button variant="ghost" size="icon" className="relative" onClick={() => setIsOpen(true)}>
+        <Button type="button" variant="ghost" size="icon" className="relative" onClick={() => setIsOpen(true)}>
             <ShoppingCart className="h-5 w-5" />
             <span className="sr-only">Open Cart</span>
             {count > 0 && (
@@ -31,6 +31,10 @@ function CartTrigger() {
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
     const pathname = usePathname()
+    const menuRef = React.useRef<HTMLDivElement>(null)
+    const menuButtonRef = React.useRef<HTMLButtonElement>(null)
+    const previousFocusRef = React.useRef<HTMLElement | null>(null)
+    const wasOpenRef = React.useRef(false)
 
     // Lock body scroll when menu is open
     React.useEffect(() => {
@@ -41,6 +45,60 @@ export function Navbar() {
         }
         return () => { document.body.style.overflow = "unset"; }
     }, [isOpen]);
+
+    React.useEffect(() => {
+        if (!isOpen) {
+            if (wasOpenRef.current) {
+                previousFocusRef.current?.focus()
+            }
+            wasOpenRef.current = false
+            return
+        }
+
+        wasOpenRef.current = true
+        previousFocusRef.current = document.activeElement as HTMLElement
+        const focusable = menuRef.current?.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+        focusable?.[0]?.focus()
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setIsOpen(false)
+                return
+            }
+
+            if (event.key !== "Tab") {
+                return
+            }
+
+            const currentFocusable = menuRef.current?.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+
+            if (!currentFocusable || currentFocusable.length === 0) {
+                event.preventDefault()
+                return
+            }
+
+            const first = currentFocusable[0]
+            const last = currentFocusable[currentFocusable.length - 1]
+            const active = document.activeElement
+
+            if (event.shiftKey && active === first) {
+                event.preventDefault()
+                last.focus()
+            } else if (!event.shiftKey && active === last) {
+                event.preventDefault()
+                first.focus()
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown)
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown)
+        }
+    }, [isOpen])
 
     const routes = [
         { href: "/education", label: "Education" },
@@ -127,6 +185,11 @@ export function Navbar() {
 
                     {/* Mobile Menu Trigger */}
                     <button
+                        type="button"
+                        ref={menuButtonRef}
+                        aria-expanded={isOpen}
+                        aria-controls="mobile-nav-menu"
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
                         className="inline-flex items-center justify-center rounded-md p-2 -mr-2 text-foreground/70 hover:text-foreground font-medium transition-colors hover:bg-accent md:hidden"
                         onClick={() => setIsOpen(!isOpen)}
                     >
@@ -140,6 +203,11 @@ export function Navbar() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
+                        id="mobile-nav-menu"
+                        ref={menuRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Mobile navigation menu"
                         initial="closed"
                         animate="open"
                         exit="closed"

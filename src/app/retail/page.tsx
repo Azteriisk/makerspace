@@ -47,7 +47,7 @@ export default function RetailPage() {
                     <h1 className="text-4xl font-bold tracking-tight">Retail Shop</h1>
                     <p className="text-muted-foreground mt-2">Components, kits, and tools for your next build.</p>
                 </div>
-                <div className="flex items-center gap-2 w-full md:w-auto">
+                <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -59,12 +59,13 @@ export default function RetailPage() {
                     </div>
                     <Button
                         variant={isAdmin ? "default" : "outline"}
+                        className="w-full sm:w-auto"
                         onClick={() => setIsAdmin(!isAdmin)}
                     >
                         {isAdmin ? "Admin Mode On" : "Admin Mode Off"}
                     </Button>
                     {isAdmin && (
-                        <Button onClick={() => { setEditingProduct(null); setIsDialogOpen(true) }}>
+                        <Button className="w-full sm:w-auto" onClick={() => { setEditingProduct(null); setIsDialogOpen(true) }}>
                             <Plus className="h-4 w-4 mr-2" /> Add Product
                         </Button>
                     )}
@@ -131,7 +132,7 @@ export default function RetailPage() {
 
             {filteredProducts.length === 0 && (
                 <div className="text-center py-20 text-muted-foreground">
-                    No products found matching "{searchQuery}"
+                    No products found matching &ldquo;{searchQuery}&rdquo;
                 </div>
             )}
 

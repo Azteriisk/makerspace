@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -27,33 +26,20 @@ export function ProductDialog({
     product,
     onSave,
 }: ProductDialogProps) {
-    const [formData, setFormData] = useState<Partial<Product>>({
-        name: "",
-        price: 0,
-        category: "",
-        description: "",
-    })
-
-    useEffect(() => {
-        if (product) {
-            setFormData(product)
-        } else {
-            setFormData({
-                name: "",
-                price: 0,
-                category: "",
-                description: "",
-                image: "/images/placeholder.jpg",
-                inStock: true
-            })
-        }
-    }, [product, open])
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        const form = e.currentTarget as HTMLFormElement
+        const data = new FormData(form)
+        const price = Number(data.get("price"))
+
         onSave({
-            ...formData as Product,
-            id: product?.id || Math.random().toString(36).substr(2, 9),
+            id: product?.id || crypto.randomUUID(),
+            name: String(data.get("name") || ""),
+            price: Number.isFinite(price) ? price : 0,
+            category: String(data.get("category") || ""),
+            description: String(data.get("description") || ""),
+            image: product?.image || "/images/placeholder.jpg",
+            inStock: product?.inStock ?? true,
         })
         onOpenChange(false)
     }
@@ -67,15 +53,15 @@ export function ProductDialog({
                         {product ? "Make changes to the product here." : "Add a new product to your inventory."}
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+                <form key={product?.id || "new-product"} onSubmit={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
                             Name
                         </Label>
                         <Input
                             id="name"
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            name="name"
+                            defaultValue={product?.name || ""}
                             className="col-span-3"
                             required
                         />
@@ -86,10 +72,10 @@ export function ProductDialog({
                         </Label>
                         <Input
                             id="price"
+                            name="price"
                             type="number"
                             step="0.01"
-                            value={formData.price}
-                            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                            defaultValue={product?.price ?? 0}
                             className="col-span-3"
                             required
                         />
@@ -100,8 +86,8 @@ export function ProductDialog({
                         </Label>
                         <Input
                             id="category"
-                            value={formData.category}
-                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            name="category"
+                            defaultValue={product?.category || ""}
                             className="col-span-3"
                             required
                         />
@@ -112,8 +98,8 @@ export function ProductDialog({
                         </Label>
                         <Input
                             id="description"
-                            value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            name="description"
+                            defaultValue={product?.description || ""}
                             className="col-span-3"
                         />
                     </div>

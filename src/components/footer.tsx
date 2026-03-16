@@ -7,7 +7,7 @@ export function Footer() {
                 <div className="flex flex-col items-center md:items-start gap-2">
                     <span className="font-bold text-lg">MakerSpace</span>
                     <p className="text-sm text-muted-foreground text-center md:text-left">
-                        Arkansas's First Community Tech Hub. <br className="hidden md:inline" />
+                        Arkansas&apos;s First Community Tech Hub. <br className="hidden md:inline" />
                         Learn. Build. Collaborate.
                     </p>
                 </div>

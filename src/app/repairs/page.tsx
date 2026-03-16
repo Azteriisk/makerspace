@@ -43,7 +43,7 @@ export default function RepairsPage() {
                 <Badge variant="secondary" className="mb-2">Expert Service</Badge>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Repairs & Support</h1>
                 <p className="text-xl text-muted-foreground">
-                    Don't toss it — fix it. Our technicians provide transparent pricing and expert repairs for your essential tech.
+                    Don&apos;t toss it - fix it. Our technicians provide transparent pricing and expert repairs for your essential tech.
                 </p>
             </div>
 
@@ -69,9 +69,9 @@ export default function RepairsPage() {
             <div className="bg-primary/5 rounded-3xl p-8 md:p-12">
                 <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
                     <div className="flex-1 space-y-6">
-                        <h2 className="text-3xl font-bold">Guided "Learn-to-Fix" Sessions</h2>
+                        <h2 className="text-3xl font-bold">Guided &ldquo;Learn-to-Fix&rdquo; Sessions</h2>
                         <p className="text-lg text-muted-foreground">
-                            Want to learn how to maintain your own devices? Book a guided session with one of our technicians. We'll walk you through the repair process step-by-step, teaching you valuable skills for the future.
+                            Want to learn how to maintain your own devices? Book a guided session with one of our technicians. We&apos;ll walk you through the repair process step-by-step, teaching you valuable skills for the future.
                         </p>
                         <ul className="space-y-2">
                             <li className="flex items-center gap-2">

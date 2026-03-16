@@ -167,7 +167,7 @@ export default function Home() {
                 One Space. <br /> Infinite Possibilities.
               </h2>
               <blockquote className="border-l-4 border-primary pl-6 py-2 italic text-muted-foreground text-lg">
-                "MakerSpace is about more than technology — it’s about giving people a place to connect, learn, and build something real together."
+                &ldquo;MakerSpace is about more than technology - it&apos;s about giving people a place to connect, learn, and build something real together.&rdquo;
               </blockquote>
 
               <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
@@ -175,7 +175,7 @@ export default function Home() {
                   Our mission is to make technology approachable, practical, and inspiring for Arkansans.
                 </p>
                 <p>
-                  Whether you're a student building your first robot, a hobbyist looking for parts, or an entrepreneur prototyping a product, we are here to support your journey.
+                  Whether you&apos;re a student building your first robot, a hobbyist looking for parts, or an entrepreneur prototyping a product, we are here to support your journey.
                 </p>
               </div>
 

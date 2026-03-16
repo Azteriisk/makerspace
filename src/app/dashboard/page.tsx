@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "lucide-react" // Wait, Badge is usually a component, let me check if I need to install it. I'll just use basic div for now or install it. I'll stick to basic styling to save time. 
 import { Package, GraduationCap, Award, Calendar } from "lucide-react"
 
 export default function DashboardPage() {

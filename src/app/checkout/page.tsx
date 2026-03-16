@@ -41,7 +41,7 @@ export default function CheckoutPage() {
                 </div>
                 <h1 className="text-4xl font-bold">Order Confirmed!</h1>
                 <p className="text-xl text-muted-foreground max-w-md">
-                    Thank you for your purchase. We've sent a confirmation email to your inbox.
+                    Thank you for your purchase. We&apos;ve sent a confirmation email to your inbox.
                 </p>
                 <div className="pt-8">
                     <Link href="/">
@@ -80,7 +80,7 @@ export default function CheckoutPage() {
                                 <CardTitle>Shipping Address</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="firstName">First Name</Label>
                                         <Input id="firstName" placeholder="Jane" required />
@@ -94,7 +94,7 @@ export default function CheckoutPage() {
                                     <Label htmlFor="address">Address</Label>
                                     <Input id="address" placeholder="1234 Main St" required />
                                 </div>
-                                <div className="grid grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                     <div className="space-y-2 font-medium">
                                         <Label htmlFor="city">City</Label>
                                         <Input id="city" placeholder="Little Rock" required />
@@ -133,7 +133,7 @@ export default function CheckoutPage() {
                                         <Label htmlFor="cardNumber">Card Number</Label>
                                         <Input id="cardNumber" placeholder="0000 0000 0000 0000" />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <div className="space-y-2">
                                             <Label htmlFor="expiry">Expiry Date</Label>
                                             <Input id="expiry" placeholder="MM/YY" />
@@ -151,7 +151,7 @@ export default function CheckoutPage() {
 
                 {/* Order Summary */}
                 <div className="space-y-6">
-                    <Card className="sticky top-24">
+                    <Card className="lg:sticky lg:top-24">
                         <CardHeader>
                             <CardTitle>Order Summary</CardTitle>
                         </CardHeader>

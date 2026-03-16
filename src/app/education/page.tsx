@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { INITIAL_EVENTS, Event } from "@/lib/mock-data"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,11 +9,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CalendarView } from "@/components/education/calendar-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, MapPin, User, Users } from "lucide-react"
+import { Calendar, Clock, User, Users } from "lucide-react"
 
 export default function EducationPage() {
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
     const [joinEmail, setJoinEmail] = useState("")
+    const [activeView, setActiveView] = useState("list")
+
+    useEffect(() => {
+        const media = window.matchMedia("(min-width: 768px)")
+        const updateView = () => setActiveView(media.matches ? "calendar" : "list")
+        updateView()
+
+        media.addEventListener("change", updateView)
+        return () => media.removeEventListener("change", updateView)
+    }, [])
 
     const handleJoinRequest = (e: React.FormEvent) => {
         e.preventDefault()
@@ -31,7 +41,7 @@ export default function EducationPage() {
                 </div>
             </div>
 
-            <Tabs defaultValue="calendar" className="w-full">
+            <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
                 <TabsList className="mb-4">
                     <TabsTrigger value="calendar">Calendar View</TabsTrigger>
                     <TabsTrigger value="list">List View</TabsTrigger>

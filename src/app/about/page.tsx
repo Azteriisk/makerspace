@@ -47,7 +47,7 @@ export default function AboutPage() {
                         <CardTitle>Repair & Support</CardTitle>
                     </CardHeader>
                     <CardContent className="text-muted-foreground">
-                        Affordable tech repair and guided "learn while you fix" sessions to empower you to maintain your own tech.
+                        Affordable tech repair and guided &ldquo;learn while you fix&rdquo; sessions to empower you to maintain your own tech.
                     </CardContent>
                 </Card>
             </section>
@@ -93,7 +93,7 @@ export default function AboutPage() {
             <section className="bg-primary/5 rounded-2xl p-8 md:p-12 text-center space-y-6">
                 <h2 className="text-2xl md:text-3xl font-bold">Ready to Start Building?</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                    Whether you're looking for a specific component, want to learn a new skill, or need help with a repair, MakerSpace is here for you.
+                    Whether you&apos;re looking for a specific component, want to learn a new skill, or need help with a repair, MakerSpace is here for you.
                 </p>
             </section>
         </div>

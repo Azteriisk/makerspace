@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, ShoppingCart, Plus, Minus, Trash2 } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 import { Button } from "@/components/ui/button"
-// Removed ScrollArea due to missing component
-import Image from "next/image" // Mocking image if needed or using placeholder
 import Link from "next/link"
 
 export function CartSheet() {
     const { isOpen, setIsOpen, items, removeItem, updateQuantity, total } = useCart()
+    const sheetRef = React.useRef<HTMLDivElement>(null)
+    const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+    const previousFocusRef = React.useRef<HTMLElement | null>(null)
+    const wasOpenRef = React.useRef(false)
 
     // Prevent body scroll when cart is open
     React.useEffect(() => {
@@ -21,6 +23,56 @@ export function CartSheet() {
         }
         return () => { document.body.style.overflow = "unset" }
     }, [isOpen])
+
+    React.useEffect(() => {
+        if (!isOpen) {
+            if (wasOpenRef.current) {
+                previousFocusRef.current?.focus()
+            }
+            wasOpenRef.current = false
+            return
+        }
+
+        wasOpenRef.current = true
+        previousFocusRef.current = document.activeElement as HTMLElement
+        closeButtonRef.current?.focus()
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setIsOpen(false)
+                return
+            }
+
+            if (event.key !== "Tab") {
+                return
+            }
+
+            const focusable = sheetRef.current?.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+            if (!focusable || focusable.length === 0) {
+                event.preventDefault()
+                return
+            }
+
+            const first = focusable[0]
+            const last = focusable[focusable.length - 1]
+            const active = document.activeElement
+
+            if (event.shiftKey && active === first) {
+                event.preventDefault()
+                last.focus()
+            } else if (!event.shiftKey && active === last) {
+                event.preventDefault()
+                first.focus()
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown)
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown)
+        }
+    }, [isOpen, setIsOpen])
 
     return (
         <AnimatePresence>
@@ -37,6 +89,10 @@ export function CartSheet() {
 
                     {/* Sheet */}
                     <motion.div
+                        ref={sheetRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="cart-sheet-title"
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
@@ -44,10 +100,16 @@ export function CartSheet() {
                         className="fixed inset-y-0 right-0 w-full sm:w-[400px] bg-background border-l shadow-2xl z-50 flex flex-col h-full"
                     >
                         <div className="flex items-center justify-between p-6 border-b">
-                            <h2 className="text-lg font-semibold flex items-center gap-2">
+                            <h2 id="cart-sheet-title" className="text-lg font-semibold flex items-center gap-2">
                                 <ShoppingCart className="h-5 w-5" /> Shopping Cart
                             </h2>
-                            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+                            <Button
+                                type="button"
+                                ref={closeButtonRef}
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => setIsOpen(false)}
+                            >
                                 <X className="h-4 w-4" />
                             </Button>
                         </div>
@@ -57,7 +119,7 @@ export function CartSheet() {
                                 <div className="text-center text-muted-foreground py-10">
                                     <ShoppingCart className="h-12 w-12 mx-auto mb-4 opacity-20" />
                                     <p>Your cart is empty.</p>
-                                    <Button variant="link" onClick={() => setIsOpen(false)} className="mt-2">
+                                    <Button type="button" variant="link" onClick={() => setIsOpen(false)} className="mt-2">
                                         Continue Shopping
                                     </Button>
                                 </div>
@@ -79,27 +141,33 @@ export function CartSheet() {
                                                 <div className="flex items-center gap-2 mt-2">
                                                     <div className="flex items-center border rounded-md">
                                                         <Button
+                                                            type="button"
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-6 w-6 rounded-none"
+                                                            className="h-10 w-10 rounded-none"
+                                                            aria-label={`Decrease quantity of ${product.name}`}
                                                             onClick={() => updateQuantity(product.id, quantity - 1)}
                                                         >
-                                                            <Minus className="h-3 w-3" />
+                                                            <Minus className="h-4 w-4" />
                                                         </Button>
                                                         <span className="w-8 text-center text-sm">{quantity}</span>
                                                         <Button
+                                                            type="button"
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-6 w-6 rounded-none"
+                                                            className="h-10 w-10 rounded-none"
+                                                            aria-label={`Increase quantity of ${product.name}`}
                                                             onClick={() => updateQuantity(product.id, quantity + 1)}
                                                         >
-                                                            <Plus className="h-3 w-3" />
+                                                            <Plus className="h-4 w-4" />
                                                         </Button>
                                                     </div>
                                                     <Button
+                                                        type="button"
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10 ml-auto"
+                                                        className="h-10 w-10 text-destructive hover:text-destructive hover:bg-destructive/10 ml-auto"
+                                                        aria-label={`Remove ${product.name} from cart`}
                                                         onClick={() => removeItem(product.id)}
                                                     >
                                                         <Trash2 className="h-4 w-4" />
