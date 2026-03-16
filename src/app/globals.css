@@ -90,6 +90,26 @@
     @apply bg-background text-foreground;
   }
 
+  .guide-markdown h1,
+  .guide-markdown h2,
+  .guide-markdown h3 {
+    @apply mt-6 mb-3 font-semibold tracking-tight;
+  }
+
+  .guide-markdown p,
+  .guide-markdown li {
+    @apply text-sm leading-7 text-foreground/90;
+  }
+
+  .guide-markdown ul,
+  .guide-markdown ol {
+    @apply my-4 ml-6 space-y-2;
+  }
+
+  .guide-markdown code {
+    @apply rounded bg-muted px-1.5 py-0.5 text-xs;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 10px;

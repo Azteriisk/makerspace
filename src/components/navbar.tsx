@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { UserButton, useUser } from "@clerk/nextjs"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -31,6 +32,7 @@ function CartTrigger() {
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
     const pathname = usePathname()
+    const { isSignedIn } = useUser()
     const menuRef = React.useRef<HTMLDivElement>(null)
     const menuButtonRef = React.useRef<HTMLButtonElement>(null)
     const previousFocusRef = React.useRef<HTMLElement | null>(null)
@@ -174,10 +176,20 @@ export function Navbar() {
 
                 {/* Right: Actions */}
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 z-50 relative">
-                    {/* Desktop Only Member Button */}
-                    <Link href="/login" className="hidden lg:block">
-                        <Button size="sm" className="font-semibold shadow-md shadow-primary/20">Member Portal</Button>
-                    </Link>
+                    {!isSignedIn ? (
+                        <Link href="/dashboard" className="hidden lg:block">
+                            <Button size="sm" className="font-semibold shadow-md shadow-primary/20">Member Portal</Button>
+                        </Link>
+                    ) : null}
+
+                    {isSignedIn ? (
+                        <div className="hidden items-center gap-3 lg:flex">
+                            <Link href="/dashboard/how-to">
+                                <Button size="sm" className="font-semibold shadow-md shadow-primary/20">Member Portal</Button>
+                            </Link>
+                            <UserButton />
+                        </div>
+                    ) : null}
 
                     <CartTrigger />
 
@@ -231,7 +243,7 @@ export function Navbar() {
                             ))}
 
                             <motion.div variants={itemVariants} className="pt-6">
-                                <Link href="/login" onClick={() => setIsOpen(false)}>
+                                <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                                     <Button className="w-full h-12 text-lg font-semibold shadow-xl shadow-primary/20">
                                         Member Portal
                                     </Button>

@@ -6,9 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "spacetime:generate": "spacetime generate --lang typescript --out-dir src/module_bindings --module-path spacetimedb",
+    "spacetime:publish:local": "spacetime publish -y --module-path spacetimedb --server local",
+    "spacetime:publish": "spacetime publish -y --module-path spacetimedb --server maincloud",
+    "spacetime:publish:reset:local": "spacetime publish --clear-database -y --module-path spacetimedb --server local",
+    "spacetime:publish:reset": "spacetime publish --clear-database -y --module-path spacetimedb --server maincloud"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.0.4",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.8",
@@ -23,6 +29,8 @@
     "next-themes": "^0.4.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0",
+    "spacetimedb": "^2.0.3",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
