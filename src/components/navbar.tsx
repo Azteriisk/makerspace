@@ -141,22 +141,22 @@ export function Navbar() {
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             {/* Increased padding-x for mobile from px-4 to px-6 */}
-            <div className="container mx-auto flex h-20 items-center justify-between px-6 md:px-12 relative">
+            <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-12 relative">
                 {/* Left: Logo */}
                 <Link href="/" className="flex-none transition-opacity hover:opacity-80 z-50 relative">
                     <Image
                         src="/logo.png"
                         alt="MakerSpace"
-                        width={260}
-                        height={76}
-                        className="h-[50px] w-auto object-contain dark:brightness-100"
+                        width={240}
+                        height={70}
+                        className="h-10 sm:h-11 lg:h-12 w-auto object-contain dark:brightness-100"
                         priority
                     />
                 </Link>
 
                 {/* Center: Desktop Nav (Absolutely Positioned) - Stays same */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
-                    <nav className="flex items-center space-x-8 text-sm font-semibold">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:block">
+                    <nav className="flex items-center space-x-6 xl:space-x-8 text-sm font-semibold">
                         {routes.map((route) => (
                             <Link
                                 key={route.href}
@@ -173,9 +173,9 @@ export function Navbar() {
                 </div>
 
                 {/* Right: Actions */}
-                <div className="flex items-center space-x-4 z-50 relative">
+                <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 z-50 relative">
                     {/* Desktop Only Member Button */}
-                    <Link href="/login" className="hidden md:block">
+                    <Link href="/login" className="hidden lg:block">
                         <Button size="sm" className="font-semibold shadow-md shadow-primary/20">Member Portal</Button>
                     </Link>
 
@@ -190,7 +190,7 @@ export function Navbar() {
                         aria-expanded={isOpen}
                         aria-controls="mobile-nav-menu"
                         aria-label={isOpen ? "Close menu" : "Open menu"}
-                        className="inline-flex items-center justify-center rounded-md p-2 -mr-2 text-foreground/70 hover:text-foreground font-medium transition-colors hover:bg-accent md:hidden"
+                        className="inline-flex items-center justify-center rounded-md p-2 -mr-2 text-foreground/70 hover:text-foreground font-medium transition-colors hover:bg-accent lg:hidden"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -212,7 +212,7 @@ export function Navbar() {
                         animate="open"
                         exit="closed"
                         variants={menuVariants}
-                        className="fixed inset-0 top-0 left-0 h-screen w-screen bg-background/98 backdrop-blur-xl z-40 flex flex-col pt-24 px-8 md:hidden overflow-y-auto"
+                        className="fixed inset-0 top-0 left-0 h-screen w-screen bg-background/98 backdrop-blur-xl z-40 flex flex-col pt-24 px-8 lg:hidden overflow-y-auto"
                     >
                         <div className="flex flex-col space-y-6">
                             {routes.map((route) => (
