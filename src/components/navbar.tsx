@@ -147,9 +147,9 @@ export function Navbar() {
                     <Image
                         src="/logo.png"
                         alt="MakerSpace"
-                        width={240}
-                        height={70}
-                        className="h-10 sm:h-11 lg:h-12 w-auto object-contain dark:brightness-100"
+                        width={260}
+                        height={76}
+                        className="h-11 sm:h-12 lg:h-[52px] w-auto object-contain dark:brightness-100"
                         priority
                     />
                 </Link>
