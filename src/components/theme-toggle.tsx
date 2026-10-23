@@ -6,11 +6,11 @@ import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
     const { setTheme, theme } = useTheme()
-    const [mounted, setMounted] = React.useState(false)
-
-    React.useEffect(() => {
-        setMounted(true)
-    }, [])
+    const mounted = React.useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    )
 
     return (
         <button

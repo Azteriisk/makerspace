@@ -83,32 +83,27 @@ export function CommunityClient() {
         .sort((a, b) => a.sortOrder - b.sortOrder)
     const visibleThreads = threads.filter(thread => currentProfile && [thread.userAClerkId, thread.userBClerkId].includes(currentProfile.clerkId))
 
-    const [activeTarget, setActiveTarget] = React.useState<ActiveTarget | null>(null)
+    const [selectedTarget, setSelectedTarget] = React.useState<ActiveTarget | null>(null)
+    const activeTarget: ActiveTarget | null = React.useMemo(() => {
+        if (!visibleChannels.length && !visibleThreads.length) return null
+        if (selectedTarget) {
+            const isStillValid = selectedTarget.type === "channel"
+                ? visibleChannels.some(channel => channel.id === selectedTarget.id)
+                : visibleThreads.some(thread => thread.id === selectedTarget.id)
+            if (isStillValid) return selectedTarget
+        }
+        return visibleChannels[0]
+            ? { type: "channel", id: visibleChannels[0].id }
+            : visibleThreads[0]
+                ? { type: "dm", id: visibleThreads[0].id }
+                : null
+    }, [selectedTarget, visibleChannels, visibleThreads])
+    const setActiveTarget = setSelectedTarget
     const [draftMessage, setDraftMessage] = React.useState("")
 
     const createDmThread = useReducer(reducers.createDmThread)
     const sendMessage = useReducer(reducers.sendMessage)
     const markThreadRead = useReducer(reducers.markThreadRead)
-
-    React.useEffect(() => {
-        if (!visibleChannels.length && !visibleThreads.length) {
-            setActiveTarget(null)
-            return
-        }
-
-        if (!activeTarget) {
-            setActiveTarget(visibleChannels[0] ? { type: "channel", id: visibleChannels[0].id } : { type: "dm", id: visibleThreads[0].id })
-            return
-        }
-
-        const isStillValid = activeTarget.type === "channel"
-            ? visibleChannels.some(channel => channel.id === activeTarget.id)
-            : visibleThreads.some(thread => thread.id === activeTarget.id)
-
-        if (!isStillValid) {
-            setActiveTarget(visibleChannels[0] ? { type: "channel", id: visibleChannels[0].id } : { type: "dm", id: visibleThreads[0].id })
-        }
-    }, [activeTarget, visibleChannels, visibleThreads])
 
     React.useEffect(() => {
         if (!connection.isActive || !currentProfile || activeTarget?.type !== "dm") {

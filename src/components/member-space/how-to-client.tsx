@@ -53,19 +53,10 @@ export function HowToClient() {
     })
 
     const [selectedSlug, setSelectedSlug] = React.useState<string | null>(null)
-
-    React.useEffect(() => {
-        if (!visibleTutorials.length) {
-            setSelectedSlug(null)
-            return
-        }
-
-        if (!selectedSlug || !visibleTutorials.some(tutorial => tutorial.slug === selectedSlug)) {
-            setSelectedSlug(visibleTutorials[0].slug)
-        }
-    }, [selectedSlug, visibleTutorials])
-
-    const selectedTutorial = visibleTutorials.find(tutorial => tutorial.slug === selectedSlug) ?? visibleTutorials[0] ?? null
+    const activeSlug = (selectedSlug && visibleTutorials.some(tutorial => tutorial.slug === selectedSlug))
+        ? selectedSlug
+        : visibleTutorials[0]?.slug ?? null
+    const selectedTutorial = visibleTutorials.find(tutorial => tutorial.slug === activeSlug) ?? null
     const featuredTutorial = visibleTutorials.find(tutorial => tutorial.featured) ?? visibleTutorials[0] ?? null
     const difficulties = Array.from(new Set(tutorials.map(tutorial => tutorial.difficulty)))
 
