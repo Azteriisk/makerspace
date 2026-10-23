@@ -48,3 +48,5 @@ next-env.d.ts
 
 # local spacetime admin identity
 /spacetimedb/src/admin.ts
+
+.vercel
